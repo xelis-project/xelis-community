@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XELIS Hashrates</title>
+  <style>
+    .table-overflow {
+      overflow: auto;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      white-space: nowrap;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>XELIS Hashrates</h1>
+  <div class="table-overflow">
+    <table id="hashrates">
+      <thead>
+        <!-- Table header will be inserted here -->
+      </thead>
+      <tbody>
+        <!-- Table rows will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+  <script src="hashrates.js"></script>
+  <script>
+    function loadHashrates() {
+      const headers = {
+        "date": "Added Date",
+        "type": "Type",
+        "brand": "Brand",
+        "model": "Model",
+        "miner": "Miner",
+        "user": "User",
+        "stock.hashrate": "Stock Hashrate",
+        "stock.power_range": "Stock Power Range",
+        "oc.core_clock": "OC Core Clock",
+        "oc.core_clock_offset": "OC Core Clock Offset",
+        "oc.mem_clock": "OC Mem Clock",
+        "oc.mem_clock_offset": "OC Mem Clock Offset",
+        "oc.hashrate": "OC Hashrate",
+        "oc.power_range": "OC Power Range",
+        "oc.efficiency": "OC Efficiency",
+        "max_oc.core_clock": "MAX OC Core Clock",
+        "max_oc.core_clock_offset": "MAX OC Core Clock Offset",
+        "max_oc.mem_clock": "MAX OC Mem Clock",
+        "max_oc.mem_clock_offset": "MAX OC Mem Clock Offset",
+        "max_oc.hashrate": "MAX OC Hashrates",
+        "max_oc.power_range": "MAX OC Power Range",
+        "max_oc.efficiency": "MAX OC Efficiency"
+      }
+
+      const table = document.getElementById("hashrates")
+      const tableHeader = table.getElementsByTagName("thead")[0]
+      const tableBody = table.getElementsByTagName("tbody")[0]
+
+      // Insert header
+      let headerRow = tableHeader.insertRow()
+      Object.keys(headers).forEach((header, idx) => {
+        headerRow.insertCell(idx).textContent = headers[header]
+      })
+
+      // Insert data
+      HASHRATES.forEach(item => {
+        let bodyRow = tableBody.insertRow()
+
+        Object.keys(headers).forEach((header, idx) => {
+          const props = header.split(".")
+
+          let value = item
+          props.forEach((prop) => {
+            value = value[prop]
+          })
+          setBodyCell(bodyRow, idx, value)
+        })
+      })
+    }
+
+    function setBodyCell(row, idx, content) {
+      if (content != null && content != undefined && content !== "") {
+        row.insertCell(idx).textContent = content
+      } else {
+        row.insertCell(idx).textContent = "N/A"
+      }
+    }
+
+    loadHashrates()
+  </script>
+</body>
+
+</html>
