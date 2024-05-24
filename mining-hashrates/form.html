@@ -55,65 +55,68 @@
     <br><br>
 
     <fieldset>
-      <legend>Stock Specifications</legend>
-      <label for="stock_hashrate">Hashrate (kh/s):</label>
-      <input type="number" id="stock_hashrate" name="stock_hashrate"><br><br>
+      <legend>Benchmark</legend>
 
-      <label for="stock_power_min">Power Range Min (watt):</label>
-      <input type="number" id="stock_power_min" name="stock_power_min"><br><br>
+      <label for="hashrate">Hashrate (kh/s):</label>
+      <input type="number" id="hashrate" name="hashrate"><br><br>
 
-      <label for="stock_power_max">Power Range Max (watt):</label>
-      <input type="number" id="stock_power_max" name="stock_power_max"><br><br>
+      <label for="power">Power avg (watt):</label>
+      <input type="number" id="power" name="power"><br>
     </fieldset>
     <br />
 
     <fieldset>
-      <legend>Overclock Specifications</legend>
-      <label for="oc_core_clock">Core Clock (gh/s):</label>
-      <input type="number" id="oc_core_clock" name="oc_core_clock"><br><br>
+      <legend>CPU Specifications</legend>
+      <p>Leave empty if using stock and max threads.</p>
 
-      <label for="oc_core_clock_offset">Core Clock Offset:</label>
-      <input type="number" id="oc_core_clock_offset" name="oc_core_clock_offset"><br><br>
+      <label for="cpu_threads">Threads Used:</label>
+      <input type="number" id="cpu_threads" name="cpu_threads"><br><br>
 
-      <label for="oc_mem_clock">Memory Clock (gh/s):</label>
-      <input type="number" id="oc_mem_clock" name="oc_mem_clock"><br><br>
+      <label for="cpu_multiplier">CPU Multiplier:</label>
+      <input type="number" id="cpu_multiplier" name="cpu_multiplier">&nbsp;or
+      <label for="cpu_base_clock">Base Clock (MHz):</label>
+      <input type="number" id="cpu_base_clock" name="cpu_base_clock"><br><br>
 
-      <label for="oc_mem_clock_offset">Memory Clock Offset:</label>
-      <input type="number" id="oc_mem_clock_offset" name="oc_mem_clock_offset"><br><br>
+      <label for="cpu_voltage">CPU Voltage:</label>
+      <input type="number" id="cpu_voltage" name="cpu_voltage"><br><br>
 
-      <label for="oc_hashrate">Hashrate (kh/s):</label>
-      <input type="number" id="oc_hashrate" name="oc_hashrate"><br><br>
+      <label for="cpu_motherboard">Motherboard:</label>
+      <input type="text" id="cpu_motherboard" name="cpu_motherboard"><br><br>
 
-      <label for="oc_power_min">Power Range Min (watt):</label>
-      <input type="number" id="oc_power_min" name="oc_power_min"><br><br>
+      <label for="cpu_memory">Memory:</label>
+      <input type="text" id="cpu_memory" name="cpu_memory" placeholder="2x 16 GB / DDR5 @ 4800 MHz"><br><br>
 
-      <label for="oc_power_max">Power Range Max (watt):</label>
-      <input type="number" id="oc_power_max" name="oc_power_max"><br><br>
+      <label for="cpu_mem_frequency">Memory Frequency:</label>
+      <input type="text" id="cpu_mem_frequency" name="cpu_mem_frequency"><br><br>
+
+      <label for="cpu_dram_voltage">DRAM Voltage:</label>
+      <input type="text" id="cpu_dram_voltage" name="cpu_dram_voltage"><br><br>
+
+      <label for="cpu_note">Note:</label>
+      <textarea id="cpu_note" name="cpu_note"></textarea><br>
+
     </fieldset>
     <br />
 
     <fieldset>
-      <legend>Maximum Overclock Specifications</legend>
-      <label for="max_oc_core_clock">Core Clock (gh/s):</label>
-      <input type="number" id="max_oc_core_clock" name="max_oc_core_clock"><br><br>
+      <legend>GPU Specifications</legend>
+      <p>Leave empty if using stock.</p>
 
-      <label for="max_oc_core_clock_offset">Core Clock Offset:</label>
-      <input type="number" id="max_oc_core_clock_offset" name="max_oc_core_clock_offset"><br><br>
+      <label for="gpu_core_clock">Core Clock (MHz):</label>
+      <input type="number" id="gpu_core_clock" name="gpu_core_clock"><br><br>
 
-      <label for="max_oc_mem_clock">Memory Clock (gh/s):</label>
-      <input type="number" id="max_oc_mem_clock" name="max_oc_mem_clock"><br><br>
+      <label for="gpu_core_clock_offset">Core Clock Offset (MHz):</label>
+      <input type="number" id="gpu_core_clock_offset" name="gpu_core_clock_offset"><br><br>
 
-      <label for="max_oc_mem_clock_offset">Memory Clock Offset:</label>
-      <input type="number" id="max_oc_mem_clock_offset" name="max_oc_mem_clock_offset"><br><br>
+      <label for="gpu_mem_clock">Memory Clock (MHz):</label>
+      <input type="number" id="gpu_mem_clock" name="gpu_mem_clock"><br><br>
 
-      <label for="max_oc_hashrate">Hashrate (kh/s):</label>
-      <input type="number" id="max_oc_hashrate" name="max_oc_hashrate"><br><br>
+      <label for="gpu_mem_clock_offset">Memory Clock Offset (MHz):</label>
+      <input type="number" id="gpu_mem_clock_offset" name="gpu_mem_clock_offset"><br><br>
 
-      <label for="max_oc_power_min">Power Range Min (watt):</label>
-      <input type="number" id="max_oc_power_min" name="max_oc_power_min"><br><br>
+      <label for="gpu_note">Note:</label>
+      <textarea id="gpu_note" name="gpu_note"></textarea><br>
 
-      <label for="max_oc_power_max">Power Range Max (watt):</label>
-      <input type="number" id="max_oc_power_max" name="max_oc_power_max"><br><br>
     </fieldset>
     <br />
 
@@ -192,35 +195,26 @@
         model: form.model_custom.value ? form.model_custom.value : form.model.value,
         miner: form.miner.value,
         user: form.user.value,
-        stock: {
-          hashrate: parseFloat(form.stock_hashrate.value),
-          power_range: [
-            parseFloat(form.stock_power_min.value),
-            parseFloat(form.stock_power_max.value)
-          ]
+        hashrate: parseFloat(form.hashrate.value),
+        power: parseFloat(form.power.value),
+        cpu_specs: {
+          threads: parseInt(form.cpu_threads.value),
+          cpu_multiplier: parseFloat(form.cpu_multiplier.value),
+          base_clock: parseFloat(form.cpu_base_clock.value),
+          cpu_voltage: parseFloat(form.cpu_voltage.value),
+          motherboard: form.cpu_motherboard.value,
+          memory: form.cpu_memory.value,
+          memory_frequency: parseFloat(form.cpu_mem_frequency.value),
+          dram_voltage: parseFloat(form.cpu_dram_voltage.value),
+          note: form.cpu_note.value,
         },
-        oc: {
-          core_clock: parseFloat(form.oc_core_clock.value),
-          core_clock_offset: parseFloat(form.oc_core_clock_offset.value),
-          mem_clock: parseFloat(form.oc_mem_clock.value),
-          mem_clock_offset: parseFloat(form.oc_mem_clock_offset.value),
-          hashrate: parseFloat(form.oc_hashrate.value),
-          power_range: [
-            parseFloat(form.oc_power_min.value),
-            parseFloat(form.oc_power_max.value)
-          ]
+        gpu_specs: {
+          core_clock: parseFloat(form.gpu_core_clock.value),
+          core_clock_offset: parseFloat(form.gpu_core_clock_offset.value),
+          mem_clock: parseFloat(form.gpu_mem_clock.value),
+          mem_clock_offset: parseFloat(form.gpu_mem_clock_offset.value),
+          note: form.gpu_note.value,
         },
-        max_oc: {
-          core_clock: parseFloat(form.max_oc_core_clock.value),
-          core_clock_offset: parseFloat(form.max_oc_core_clock_offset.value),
-          mem_clock: parseFloat(form.max_oc_mem_clock.value),
-          mem_clock_offset: parseFloat(form.max_oc_mem_clock_offset.value),
-          hashrate: parseFloat(form.max_oc_hashrate.value),
-          power_range: [
-            parseFloat(form.max_oc_power_min.value),
-            parseFloat(form.max_oc_power_max.value)
-          ]
-        }
       }
 
       document.getElementById("result").textContent = JSON.stringify(obj, null, 2)
