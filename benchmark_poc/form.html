@@ -42,6 +42,14 @@
     <input type="text" id="model_custom" name="model_custom" placeholder="Enter custom model">
     <br><br>
 
+    <label for="manufacturer">Manufacturer:</label>
+    <select id="manufacturer" name="model">
+      <option value="">Select Manufacturer</option>
+      <!-- Options will be populated based on brand selection -->
+    </select>&nbsp;or
+    <input type="text" id="manufacturer_custom" name="manufacturer_custom" placeholder="Enter custom manufacturer">
+    <br><br>
+
     <label for="miner">Mining Software:</label>
     <select id="miner" name="miner">
       <option value="">Select Mining Software</option>
@@ -129,10 +137,19 @@
   <script src="./data/intel_cpu.js"></script>
   <script src="./data/nvidia_gpu.js"></script>
   <script src="./data/mining_software.js"></script>
+  <script src="./data/amd_manufacturer.js"></script>
+  <script src="./data/intel_manufacturer.js"></script>
+  <script src="./data/nvidia_manufacturer.js"></script>
   <script>
     const brands = {
       GPU: ["NVIDIA", "AMD"],
       CPU: ["Intel", "AMD"]
+    }
+
+    const manufacturers = {
+      NVIDIA: NVIDIA_MANUFACTURER,
+      AMD: AMD_MANUFACTURER,
+      INTEL: INTEL_MANUFACTURER
     }
 
     const models = {
@@ -163,8 +180,6 @@
           brandSelect.appendChild(option)
         })
       }
-
-      updateModelOptions()
     }
 
     function updateModelOptions() {
@@ -180,6 +195,23 @@
           option.value = model
           option.text = model
           modelSelect.appendChild(option)
+        })
+      }
+
+      updateManufacturerOptions()
+    }
+
+    function updateManufacturerOptions() {
+      const brand = document.getElementById("brand").value
+      const manufacturerSelect = document.getElementById("manufacturer")
+      manufacturerSelect.innerHTML = `<option value="">Select Manufacturer</option>`
+
+      if (brand) {
+        manufacturers[brand].forEach((manufacturer) => {
+          const option = document.createElement("option")
+          option.text = manufacturer
+          option.value = manufacturer
+          manufacturerSelect.appendChild(option)
         })
       }
     }
