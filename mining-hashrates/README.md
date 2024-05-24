@@ -13,23 +13,23 @@ The format explained:
 - User: Your username. Leave empty if you want.
 - Stock (no modifications)
   - Hashrate: Actual hashrate reported in (kh/s).
-  - Power Range: The power draw range in watts. Ex: [140, 160]
+  - Power Range: The power draw range in watt. Ex: [140, 160]
 - OC (overclock)
   - Core Clock: The core clock in Ghz.
   - Core Clock Offset: The core clock offset.
   - Mem Clock: The memory clock in Ghz.
   - Mem Clock Offset: The memory clock offset.
   - Hashrate: Actual hashrate reported in (kh/s).
-  - Power Range: The power draw range in watts. Ex: [140, 160]
+  - Power Range: The power draw range in watt. Ex: [140, 160]
 - MAX OC (maximum overclock)
   - Core Clock: The core clock in Ghz.
   - Core Clock Offset: The core clock offset.
   - Mem Clock: The memory clock in Ghz.
   - Mem Clock Offset: The memory clock offset.
   - Hashrate: Actual hashrate reported in (kh/s).
-  - Power Range: The power draw range in watts. Ex: [140, 160]
+  - Power Range: The power draw range in watt. Ex: [140, 160]
 
-We don't store efficiency because we can calculate with `hashrate (KH/s) / power consumption (watts)`.
+We don't store efficiency because we can calculate with `hashrate (KH/s) / power consumption (watt)`.
 
 You can copy this default template and modify the values.
 Paste in the array inside `hashrate.js` afterwards:

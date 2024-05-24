@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>XELIS Hashrate Form</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <h1>XELIS Hashrate Form</h1>
+  <form id="hashrate_form">
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date">
+    <br><br>
+
+    <label for="type">Type:</label>
+    <select id="type" name="type" onchange="updateBrandOptions()">
+      <option value="">Select Type</option>
+      <option value="GPU">GPU</option>
+      <option value="CPU">CPU</option>
+    </select>
+    <br><br>
+
+    <label for="brand">Brand:</label>
+    <select id="brand" name="brand" onchange="updateModelOptions()">
+      <option value="">Select Brand</option>
+      <!-- Options will be populated based on type selection -->
+    </select>&nbsp;or&nbsp;
+    <input type="text" id="brand_custom" name="brand_custom" placeholder="Enter custom brand">
+    <br><br>
+
+    <label for="model">Model:</label>
+    <select id="model" name="model">
+      <option value="">Select Model</option>
+      <!-- Options will be populated based on brand selection -->
+    </select>&nbsp;or&nbsp;
+    <input type="text" id="model_custom" name="model_custom" placeholder="Enter custom model">
+    <br><br>
+
+    <label for="miner">Mining Software:</label>
+    <input type="text" id="miner" name="miner">
+    <br><br>
+
+    <label for="user">User:</label>
+    <input type="text" id="user" name="user">
+    <br><br>
+
+    <fieldset>
+      <legend>Stock Specifications</legend>
+      <label for="stock_hashrate">Hashrate (kh/s):</label>
+      <input type="number" id="stock_hashrate" name="stock_hashrate"><br><br>
+
+      <label for="stock_power_min">Power Range Min (watt):</label>
+      <input type="number" id="stock_power_min" name="stock_power_min"><br><br>
+
+      <label for="stock_power_max">Power Range Max (watt):</label>
+      <input type="number" id="stock_power_max" name="stock_power_max"><br><br>
+    </fieldset>
+    <br />
+
+    <fieldset>
+      <legend>Overclock Specifications</legend>
+      <label for="oc_core_clock">Core Clock (gh/s):</label>
+      <input type="number" id="oc_core_clock" name="oc_core_clock"><br><br>
+
+      <label for="oc_core_clock_offset">Core Clock Offset:</label>
+      <input type="number" id="oc_core_clock_offset" name="oc_core_clock_offset"><br><br>
+
+      <label for="oc_mem_clock">Memory Clock (gh/s):</label>
+      <input type="number" id="oc_mem_clock" name="oc_mem_clock"><br><br>
+
+      <label for="oc_mem_clock_offset">Memory Clock Offset:</label>
+      <input type="number" id="oc_mem_clock_offset" name="oc_mem_clock_offset"><br><br>
+
+      <label for="oc_hashrate">Hashrate (kh/s):</label>
+      <input type="number" id="oc_hashrate" name="oc_hashrate"><br><br>
+
+      <label for="oc_power_min">Power Range Min (watt):</label>
+      <input type="number" id="oc_power_min" name="oc_power_min"><br><br>
+
+      <label for="oc_power_max">Power Range Max (watt):</label>
+      <input type="number" id="oc_power_max" name="oc_power_max"><br><br>
+    </fieldset>
+    <br />
+
+    <fieldset>
+      <legend>Maximum Overclock Specifications</legend>
+      <label for="max_oc_core_clock">Core Clock (gh/s):</label>
+      <input type="number" id="max_oc_core_clock" name="max_oc_core_clock"><br><br>
+
+      <label for="max_oc_core_clock_offset">Core Clock Offset:</label>
+      <input type="number" id="max_oc_core_clock_offset" name="max_oc_core_clock_offset"><br><br>
+
+      <label for="max_oc_mem_clock">Memory Clock (gh/s):</label>
+      <input type="number" id="max_oc_mem_clock" name="max_oc_mem_clock"><br><br>
+
+      <label for="max_oc_mem_clock_offset">Memory Clock Offset:</label>
+      <input type="number" id="max_oc_mem_clock_offset" name="max_oc_mem_clock_offset"><br><br>
+
+      <label for="max_oc_hashrate">Hashrate (kh/s):</label>
+      <input type="number" id="max_oc_hashrate" name="max_oc_hashrate"><br><br>
+
+      <label for="max_oc_power_min">Power Range Min (watt):</label>
+      <input type="number" id="max_oc_power_min" name="max_oc_power_min"><br><br>
+
+      <label for="max_oc_power_max">Power Range Max (watt):</label>
+      <input type="number" id="max_oc_power_max" name="max_oc_power_max"><br><br>
+    </fieldset>
+    <br />
+
+    <button type="button" onclick="generateData()">Generate</button>
+  </form>
+  <h2>Hashrate Data</h2>
+  <pre id="result"></pre>
+  <script src="./data/amd_cpu.js"></script>
+  <script src="./data/amd_gpu.js"></script>
+  <script src="./data/intel_cpu.js"></script>
+  <script src="./data/nvidia_gpu.js"></script>
+  <script>
+    const brands = {
+      GPU: ["NVIDIA", "AMD"],
+      CPU: ["Intel", "AMD"]
+    }
+
+    const models = {
+      NVIDIA_GPU: NVIDIA_GPU,
+      AMD_GPU: AMD_GPU,
+      AMD_CPU: AMD_CPU,
+      Intel_CPU: INTEL_CPU,
+    }
+
+    function updateBrandOptions() {
+      const type = document.getElementById('type').value
+      const brandSelect = document.getElementById('brand')
+      brandSelect.innerHTML = '<option value="">Select Brand</option>'
+
+      if (type) {
+        brands[type].forEach(brand => {
+          const option = document.createElement('option')
+          option.value = brand
+          option.text = brand
+          brandSelect.appendChild(option)
+        })
+      }
+
+      updateModelOptions()
+    }
+
+    function updateModelOptions() {
+      const type = document.getElementById('type').value
+      const brand = document.getElementById('brand').value
+      const modelSelect = document.getElementById('model')
+      modelSelect.innerHTML = '<option value="">Select Model</option>'
+
+      if (type && brand) {
+        const model_id = `${brand}_${type}`
+        models[model_id].forEach(model => {
+          const option = document.createElement('option')
+          option.value = model
+          option.text = model
+          modelSelect.appendChild(option)
+        })
+      }
+    }
+
+    function generateData() {
+      const form = document.getElementById('hashrate_form')
+
+      const obj = {
+        date: form.date.value,
+        type: form.type.value,
+        brand: form.brand_custom.value ? form.brand_custom.value : form.brand.value,
+        model: form.model_custom.value ? form.model_custom.value : form.model.value,
+        miner: form.miner.value,
+        user: form.user.value,
+        stock: {
+          hashrate: parseFloat(form.stock_hashrate.value),
+          power_range: [
+            parseFloat(form.stock_power_min.value),
+            parseFloat(form.stock_power_max.value)
+          ]
+        },
+        oc: {
+          core_clock: parseFloat(form.oc_core_clock.value),
+          core_clock_offset: parseFloat(form.oc_core_clock_offset.value),
+          mem_clock: parseFloat(form.oc_mem_clock.value),
+          mem_clock_offset: parseFloat(form.oc_mem_clock_offset.value),
+          hashrate: parseFloat(form.oc_hashrate.value),
+          power_range: [
+            parseFloat(form.oc_power_min.value),
+            parseFloat(form.oc_power_max.value)
+          ]
+        },
+        max_oc: {
+          core_clock: parseFloat(form.max_oc_core_clock.value),
+          core_clock_offset: parseFloat(form.max_oc_core_clock_offset.value),
+          mem_clock: parseFloat(form.max_oc_mem_clock.value),
+          mem_clock_offset: parseFloat(form.max_oc_mem_clock_offset.value),
+          hashrate: parseFloat(form.max_oc_hashrate.value),
+          power_range: [
+            parseFloat(form.max_oc_power_min.value),
+            parseFloat(form.max_oc_power_max.value)
+          ]
+        }
+      }
+
+      document.getElementById('result').textContent = JSON.stringify(obj, null, 2)
+    }
+  </script>
+</body>
+
+</html>

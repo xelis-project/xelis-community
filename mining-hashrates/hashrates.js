@@ -17,7 +17,6 @@ var HASHRATES = [
       "mem_clock": 0,
       "hashrate": 0,
       "power_range": [0, 0],
-      "efficiency": 0
     },
     "max_oc": {
       "core_clock": 0,
@@ -26,7 +25,6 @@ var HASHRATES = [
       "mem_clock": 0,
       "hashrate": 0,
       "power_range": [0, 0],
-      "efficiency": 0
     }
   }
 ]
