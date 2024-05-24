@@ -11,8 +11,11 @@
 <body>
   <h1>XELIS Hashrate Form</h1>
   <form id="hashrate_form">
-    <label for="date">Date:</label>
-    <input type="date" id="date" name="date">
+    <label for="algo">Algo:</label>
+    <select id="algo" name="algo">
+      <option value="">Select Algo</option>
+      <option value="XELIS Hash">XELIS Hash</option>
+    </select>
     <br><br>
 
     <label for="type">Type:</label>
@@ -40,7 +43,11 @@
     <br><br>
 
     <label for="miner">Mining Software:</label>
-    <input type="text" id="miner" name="miner">
+    <select id="miner" name="miner">
+      <option value="">Select Mining Software</option>
+      <!-- Options will be populated -->
+    </select>&nbsp;or&nbsp;
+    <input type="text" id="mining_custom" name="mining_custom" placeholder="Enter custom mining software">
     <br><br>
 
     <label for="user">User:</label>
@@ -118,6 +125,7 @@
   <script src="./data/amd_gpu.js"></script>
   <script src="./data/intel_cpu.js"></script>
   <script src="./data/nvidia_gpu.js"></script>
+  <script src="./data/mining_software.js"></script>
   <script>
     const brands = {
       GPU: ["NVIDIA", "AMD"],
@@ -131,14 +139,22 @@
       Intel_CPU: INTEL_CPU,
     }
 
+    const minerSelect = document.getElementById("miner")
+    MINING_SOFTWARE.forEach((miner) => {
+      const option = document.createElement("option")
+      option.value = miner
+      option.text = miner
+      minerSelect.appendChild(option)
+    })
+
     function updateBrandOptions() {
-      const type = document.getElementById('type').value
-      const brandSelect = document.getElementById('brand')
-      brandSelect.innerHTML = '<option value="">Select Brand</option>'
+      const type = document.getElementById("type").value
+      const brandSelect = document.getElementById("brand")
+      brandSelect.innerHTML = `<option value="">Select Brand</option>`
 
       if (type) {
         brands[type].forEach(brand => {
-          const option = document.createElement('option')
+          const option = document.createElement("option")
           option.value = brand
           option.text = brand
           brandSelect.appendChild(option)
@@ -149,15 +165,15 @@
     }
 
     function updateModelOptions() {
-      const type = document.getElementById('type').value
-      const brand = document.getElementById('brand').value
-      const modelSelect = document.getElementById('model')
-      modelSelect.innerHTML = '<option value="">Select Model</option>'
+      const type = document.getElementById("type").value
+      const brand = document.getElementById("brand").value
+      const modelSelect = document.getElementById("model")
+      modelSelect.innerHTML = `<option value="">Select Model</option>`
 
       if (type && brand) {
         const model_id = `${brand}_${type}`
         models[model_id].forEach(model => {
-          const option = document.createElement('option')
+          const option = document.createElement("option")
           option.value = model
           option.text = model
           modelSelect.appendChild(option)
@@ -166,10 +182,11 @@
     }
 
     function generateData() {
-      const form = document.getElementById('hashrate_form')
+      const form = document.getElementById("hashrate_form")
 
       const obj = {
-        date: form.date.value,
+        date: new Date().toISOString(),
+        algo: form.algo.value,
         type: form.type.value,
         brand: form.brand_custom.value ? form.brand_custom.value : form.brand.value,
         model: form.model_custom.value ? form.model_custom.value : form.model.value,
@@ -206,7 +223,7 @@
         }
       }
 
-      document.getElementById('result').textContent = JSON.stringify(obj, null, 2)
+      document.getElementById("result").textContent = JSON.stringify(obj, null, 2)
     }
   </script>
 </body>
